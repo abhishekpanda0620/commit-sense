@@ -1,0 +1,33 @@
+{
+  "name": "commit-sense",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhishekpanda0620/commit-sense.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abhishekpanda0620/commit-sense/issues"
+  },
+  "homepage": "https://github.com/abhishekpanda0620/commit-sense#readme",
+  "dependencies": {
+    "@types/node": "^25.2.3",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "prompts": "^2.4.2",
+    "simple-git": "^3.30.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
