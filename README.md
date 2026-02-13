@@ -41,6 +41,3 @@ Follow the interactive prompts to confirm or edit the commit message.
 3. Build: `npm run build`
 4. Run locally: `npm run dev` (or `node bin/commitsense.js`)
 
-## Roadmap
-
-See [docs/CommitSense_ROADMAP.md](docs/CommitSense_ROADMAP.md) for future plans.
