@@ -41,3 +41,21 @@ Follow the interactive prompts to confirm or edit the commit message.
 3. Build: `npm run build`
 4. Run locally: `npm run dev` (or `node bin/commitsense.js`)
 
+## Optional: Enforce Commit Convention
+
+You can use `commit-sense-cli` to validate commit messages with git hooks (e.g., using **Husky**).
+
+1. Install Husky:
+```bash
+npm install --save-dev husky
+npx husky init
+```
+
+2. Add a `commit-msg` hook:
+```bash
+echo "npx commit-sense-cli validate \$1" > .husky/commit-msg
+```
+
+Now, if you try to commit with an invalid message (e.g., `git commit -m "bad message"`), it will be rejected.
+
+

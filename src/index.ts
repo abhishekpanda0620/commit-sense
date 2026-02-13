@@ -6,7 +6,59 @@ import { classifyChanges } from './analysis/classifier';
 import { detectScope } from './analysis/scope';
 import { spawn } from 'child_process';
 
+import { validateCommitMessage } from './analysis/validator';
+import fs from 'fs-extra';
+
 async function main() {
+    // 0. Handle Validation Command
+    const args = process.argv.slice(2);
+    if (args.length > 0 && (args[0] === 'validate' || args[0] === '--validate')) {
+        const msgFile = args[1];
+        if (!msgFile) {
+            console.error(chalk.red('Error: Commit message file path required for validation.'));
+            process.exit(1);
+        }
+
+        try {
+            const msg = await fs.readFile(msgFile, 'utf-8');
+            const result = validateCommitMessage(msg);
+
+            if (!result.isValid) {
+                console.error(chalk.red('Invalid Commit Message:'));
+                result.errors.forEach(e => console.error(chalk.yellow(` - ${e}`)));
+
+                // Provide Suggestions
+                try {
+                    const stagedFiles = await getStagedFiles();
+                    if (stagedFiles.length > 0) {
+                        const fileChanges = await Promise.all(stagedFiles.map(async file => ({
+                            path: file,
+                            diff: await getStagedFileDiff(file)
+                        })));
+                        const classification = await classifyChanges(fileChanges);
+                        const suggestedScope = detectScope(stagedFiles);
+                        
+                        console.log(chalk.cyan('\n----------------------------------------'));
+                        console.log(chalk.cyan('🤖 CommitSense Suggestion:'));
+                        console.log(chalk.green(`${classification.type}${suggestedScope ? `(${suggestedScope})` : ''}: <description>`));
+                        console.log(chalk.gray(`Reason: ${classification.reason}`));
+                        console.log(chalk.cyan('----------------------------------------\n'));
+                    }
+                } catch (err) {
+                    // Ignore analysis errors during validation to avoid noise
+                }
+
+                process.exit(1);
+            } else {
+                console.log(chalk.green('Commit message is valid.'));
+                process.exit(0);
+            }
+        } catch (error) {
+            console.error(chalk.red(`Error reading commit message file: ${msgFile}`), error);
+            process.exit(1);
+        }
+    }
+
     console.log(chalk.cyan('CommitSense - Smart Commit Wizard'));
 
     // 1. Get staged files
