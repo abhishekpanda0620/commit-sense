@@ -1,10 +1,10 @@
 {
-  "name": "commit-sense",
+  "name": "commit-sense-cli",
   "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "commitsense": "./bin/commitsense.js"
+    "commit-sense-cli": "bin/commitsense.js"
   },
   "files": [
     "dist",
