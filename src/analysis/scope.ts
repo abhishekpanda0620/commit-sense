@@ -40,11 +40,19 @@ export function detectScope(stagedFiles: string[]): string {
         }
     }
 
-    // Find the most frequent scope
+    // Filter out blacklisted scopes if there are other candidates
+    const BLACKLIST = ['utils', 'helpers', 'common', 'shared', 'types', 'interfaces'];
+    
+    // Calculate counts
     let maxScope = '';
     let maxCount = 0;
+    
+    // First pass: try to find non-blacklisted scopes
+    const nonBlacklistedScopes = Object.entries(scopes).filter(([s]) => !BLACKLIST.includes(s));
+    
+    const candidates = nonBlacklistedScopes.length > 0 ? nonBlacklistedScopes : Object.entries(scopes);
 
-    for (const [scope, count] of Object.entries(scopes)) {
+    for (const [scope, count] of candidates) {
         if (count > maxCount) {
              maxCount = count;
              maxScope = scope;

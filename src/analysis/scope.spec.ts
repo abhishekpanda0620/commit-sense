@@ -25,4 +25,10 @@ describe('Scope Detection', () => {
       const scope = detectScope(files);
       expect(scope).toBe('ui');
   });
+
+  it('should prioritize feature scopes over utility scopes', () => {
+      const files = ['src/auth/login.ts', 'src/utils/logger.ts'];
+      const scope = detectScope(files);
+      expect(scope).toBe('auth');
+  });
 });
