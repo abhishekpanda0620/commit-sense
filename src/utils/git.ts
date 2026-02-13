@@ -25,7 +25,7 @@ export async function getStagedFileDiff(filePath: string): Promise<string> {
     try {
         return await git.diff(['--cached', filePath]);
     } catch (error) {
-        console.error(`Error getting diff for ${filePath}:`, error);
+        console.error('Error getting diff for:', filePath, error);
         return '';
     }
 }
