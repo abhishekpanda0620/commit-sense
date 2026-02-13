@@ -15,7 +15,7 @@ CommitSense helps developers write accurate, meaningful, and semantically correc
 ## Installation
 
 ```bash
-npm install -g commit-sense
+npm install -g commit-sense-cli
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ git add .
 Run CommitSense instead of `git commit`:
 
 ```bash
-commit-sense
+commit-sense-cli
 ```
 
 Follow the interactive prompts to confirm or edit the commit message.
