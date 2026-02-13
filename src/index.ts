@@ -1,7 +1,7 @@
 
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { getStagedFiles } from './utils/git';
+import { getStagedFiles, getStagedFileDiff } from './utils/git';
 import { classifyChanges } from './analysis/classifier';
 import { detectScope } from './analysis/scope';
 import { spawn } from 'child_process';
@@ -21,7 +21,12 @@ async function main() {
     if (stagedFiles.length > 5) console.log(chalk.gray(` ... and ${stagedFiles.length - 5} more.`));
 
     // 2. Analyze
-    const classification = classifyChanges(stagedFiles);
+    const fileChanges = await Promise.all(stagedFiles.map(async file => ({
+        path: file,
+        diff: await getStagedFileDiff(file)
+    })));
+
+    const classification = await classifyChanges(fileChanges);
     const suggestedScope = detectScope(stagedFiles);
 
     // 3. Prompt
