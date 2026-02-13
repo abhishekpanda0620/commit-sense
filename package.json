@@ -4,8 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "commit-sense": "./bin/commitsense.js"
+    "commitsense": "./bin/commitsense.js"
   },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE",
+    "docs"
+  ],
   "directories": {
     "doc": "docs"
   },
